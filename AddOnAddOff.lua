@@ -8,7 +8,7 @@ local ww = LibStub("WidgetWarlock-Alpha1")
 ------------------------------
 
 AddOnAddOff = DongleStub("Dongle-1.0"):New("AddOnAddOff")
-if tekDebug then AddOnAddOff:EnableDebug(10, tekDebug:GetFrame("AddOnAddOff")) end
+if tekDebug then AddOnAddOff:EnableDebug(1, tekDebug:GetFrame("AddOnAddOff")) end
 
 
 function AddOnAddOff:Initialize()
@@ -99,6 +99,7 @@ function AddOnAddOff:CreateOHFrame()
 		UpdateEnabled()
 	end)
 	copybutton:SetScript("OnClick", function()
+		self.db:ResetProfile()
 		self.db:CopyProfile(UIDropDownMenu_GetSelectedValue(selected))
 		profiles = self.db:GetProfiles()
 		UpdateEnabled()
@@ -132,7 +133,7 @@ function AddOnAddOff:CreateOHFrame()
 
 	local savebutton = ww:SummonButton(frame, "Store", nil, nil, "BOTTOMLEFT", 10, 15)
 	savebutton:SetScript("OnClick", function()
---~ 		self.db.ResetProfile()
+		self.db:ResetProfile()
 
 		for i=1,GetNumAddOns() do
 			local name, _, _, enabled = GetAddOnInfo(i)
@@ -143,12 +144,16 @@ function AddOnAddOff:CreateOHFrame()
 		UpdateEnabled()
 	end)
 
-	local loadbutton = ww:SummonButton(frame, "Apply", nil, nil, "BOTTOMLEFT", savebutton, "TOPLEFT", 0, 15)
+	local loadbutton = ww:SummonButton(frame, "Apply", nil, nil, "LEFT", savebutton, "RIGHT", 10, 0)
 	loadbutton:SetScript("OnClick", function()
 		for i=1,GetNumAddOns() do
 			if not self.db.profile[GetAddOnInfo(i)] then DisableAddOn(i) else EnableAddOn(i) end
 		end
 	end)
+
+	ww:EnslaveTooltip(copybutton, "Copy the selected profile into your current profile.")
+	ww:EnslaveTooltip(savebutton, "Stores your current addon configuration.\nThis does not automatically happen when addons are enabled or disabled!")
+	ww:EnslaveTooltip(loadbutton, "Apply the current addon profile.\nThis does not automatically happen when a new profile is loaded!")
 
 	frame:SetScript("OnShow", function(frame)
 		ww.FadeIn(frame, 0.5)
