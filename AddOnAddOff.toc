@@ -1,0 +1,17 @@
+## Interface: 20100
+
+## Title: AddOn AddOff
+## Notes: Simple OptionHouse-based addon profile manager
+## Author: Tekkub Stoutwrithe
+## Version: Alpha
+
+## SavedVariables: AddOnAddOffDB
+
+## OptionalDeps: Dongle, Optionhouse, tekDebug
+
+Dongle.lua
+OptionHouse.lua
+WidgetWarlock\WidgetWarlock.xml
+
+AddOnAddOff.lua
+
