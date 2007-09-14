@@ -111,7 +111,7 @@ function AddOnAddOff:CreateOHFrame()
 		ToggleButtons(profiles[1])
 	end)
 
-	local createname = ww:SummonEditBox(currentgroup, 187, 32, "TOPLEFT", loadbutton, "BOTTOMLEFT", 8, 1)
+	local createname = ww:SummonEditBox(currentgroup, 187, "TOPLEFT", loadbutton, "BOTTOMLEFT", 8, 1)
 	local createbutton = ww:SummonButton(currentgroup, "Create", nil, nil, "LEFT", createname, "RIGHT", 5, -1)
 	createbutton:Disable()
 	createname:SetScript("OnTextChanged", function(frame) if frame:GetText() ~= "" then createbutton:Enable() else createbutton:Disable() end end)

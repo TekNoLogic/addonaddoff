@@ -1,9 +1,40 @@
 
-local lib, oldminor = LibStub:NewLibrary("WidgetWarlock-Alpha1", 2)
+local lib, oldminor = LibStub:NewLibrary("WidgetWarlock-Alpha1", 3)
 if not lib then return end
 lib.upgrading = oldminor or 0
-if lib.upgrading >= 1 then return end
+if lib.upgrading >= 3 then return end
 
+
+-- Creates a text edit box.
+-- All args optional, parent highly recommended
+function lib:SummonEditBox(parent, w, ...)
+	local f = CreateFrame('EditBox', nil, parent)
+	f:SetAutoFocus(false)
+
+	local left = self:SummonTextureWithCoords(f, "BACKGROUND", 8, 20, "Interface\\Common\\Common-Input-Border", 0, 0.0625, 0, 0.625)
+	local right = self:SummonTextureWithCoords(f, "BACKGROUND", 8, 20, "Interface\\Common\\Common-Input-Border", 0.9375, 1, 0, 0.625)
+	local center = self:SummonTextureWithCoords(f, "BACKGROUND", 10, 20, "Interface\\Common\\Common-Input-Border", 0.0625, 0.9375, 0, 0.625)
+
+	left:SetPoint("LEFT", f, "LEFT", -5, 0)
+	right:SetPoint("RIGHT", f, "RIGHT", 0, 0)
+	center:SetPoint("RIGHT", right, "LEFT", 0, 0)
+	center:SetPoint("LEFT", left, "RIGHT", 0, 0)
+
+	f:SetScript("OnEscapePressed", f.ClearFocus)
+	f:SetScript("OnEditFocusLost", lib.ClearHighlight)
+	f:SetScript("OnEditFocusGained", f.HighlightText)
+
+	f:SetFontObject('ChatFontNormal')
+
+	if select('#', ...) > 0 then f:SetPoint(...) end
+	f:SetWidth(w or 100)
+	f:SetHeight(32)
+
+	return f
+end
+
+
+if lib.upgrading >= 1 then return end
 
 
 
@@ -22,35 +53,7 @@ function lib:SummonGroupBox(parent, w, h, ...)
 end
 
 
--- Creates a text edit box.
--- All args optional, parent highly recommended
 function lib.ClearHighlight(f) f:HighlightText(0,0) end
-function lib:SummonEditBox(parent, w, h, ...)
-	local f = CreateFrame('EditBox', nil, parent)
-	f:SetAutoFocus(false)
-
-	local left = self:SummonTextureWithCoords(f, "BACKGROUND", 8, 20, "Interface\\Common\\Common-Input-Border", 0, 0.0625, 0, 0.625)
-	local right = self:SummonTextureWithCoords(f, "BACKGROUND", 8, 20, "Interface\\Common\\Common-Input-Border", 0.9375, 1, 0, 0.625)
-	local center = self:SummonTextureWithCoords(f, "BACKGROUND", 10, 20, "Interface\\Common\\Common-Input-Border", 0.0625, 0.9375, 0, 0.625)
-
-	left:SetPoint("LEFT", f, "LEFT", -5, 0)
-	right:SetPoint("RIGHT", f, "RIGHT", 0, 0)
-	center:SetPoint("RIGHT", right, "LEFT", 0, 0)
-	center:SetPoint("LEFT", left, "RIGHT", 0, 0)
-
-	f:SetScript("OnEscapePressed", f.ClearFocus)
-	f:SetScript("OnEditFocusLost", ClearHighlight)
-	f:SetScript("OnEditFocusGained", f.HighlightText)
-
-	f:SetFontObject('ChatFontNormal')
-
-	if select('#', ...) > 0 then f:SetPoint(...) end
-	f:SetWidth(w or 100)
-	f:SetHeight(h or 24)
-
-	return f
-end
-
 
 
 -- Creates a button
