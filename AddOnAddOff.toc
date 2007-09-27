@@ -1,4 +1,4 @@
-## Interface: 20100
+## Interface: 20200
 
 ## Title: AddOn AddOff
 ## Notes: Simple OptionHouse-based addon profile manager
